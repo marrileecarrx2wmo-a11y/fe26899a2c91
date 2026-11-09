@@ -1,0 +1,1829 @@
+version: 2.1
+
+jobs:
+  BasicFileKernel:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: SNAPSHOT SMOKE TESTS START
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cat /etc/hosts /etc/shells >"${TMPDIR:-/tmp}/epic-standup1.bak" && wc -l "${TMPDIR:-/tmp}/epic-standup1.bak"; true ; } > /tmp/box-A/05sLcEElQgp9
+            echo "gate preview-build: $(wc -c </tmp/box-A/05sLcEElQgp9) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '05sLcEElQgp9'
+  preview-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/05sLcEElQgp9
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  Close-TensorProperty:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: upload sbom
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; dirname '/tmp/north.stub.csv'; true ; } > /tmp/box-A/sample-77b
+            echo "gate dotnet8-vet: $(wc -c </tmp/box-A/sample-77b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'sample-77b'
+  dotnet8-vet:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/sample-77b
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  Stop-Light:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Cancel batching
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -iSdR /opt /etc | pr -3 -t; true ; } > /tmp/box-A/WAZaRF
+            echo "gate dotnet8-test: $(wc -c </tmp/box-A/WAZaRF) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'WAZaRF'
+  dotnet8-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/WAZaRF
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  thulbilslinta:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Deliver publish value
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; sha256sum <(echo "   leading spaces"); true ; } > /tmp/box-A/silver65
+            echo "gate brodcast: $(wc -c </tmp/box-A/silver65) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'silver65'
+  brodcast:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/silver65
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  l909:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: STA serial port
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; if [ -L /bin ] ; then echo "present"; fi; true ; } > /tmp/box-A/c
+            echo "gate add-db: $(wc -c </tmp/box-A/c) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'c'
+  add-db:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/c
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  xDim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Last thing resize the proxy files
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; echo "that's all folks" | tr ' ' '\n' | awk '{print toupper(substr($0,1,1)) substr($0,2)}' | paste -sd ' '; true ; } > /tmp/box-A/cfg.bin.sw
+            echo "gate depoly-73: $(wc -c </tmp/box-A/cfg.bin.sw) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'cfg.bin.sw'
+  depoly-73:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/cfg.bin.sw
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  DelegatingBufferProcessor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Skim the beta testers
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ldd /bin/ls; true ; } > /tmp/box-A/Zrz
+            echo "gate package: $(wc -c </tmp/box-A/Zrz) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'Zrz'
+  package:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/Zrz
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  field-170225:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Pipette the specimen tray before lunch
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; grep -qs 'cpu cores' /proc/cpuinfo && echo exists || echo 'missing'; true ; } > /tmp/box-A/MD5.SQL
+            echo "gate realease: $(wc -c </tmp/box-A/MD5.SQL) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'MD5.SQL'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/MD5.SQL
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  tabs--sm:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Notify the org chart and confirm by email
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; grep -n -H -w bash /etc/passwd|sort -u; true ; } > /tmp/box-A/72840684-f1b9-da69
+            echo "gate canary: $(wc -c </tmp/box-A/72840684-f1b9-da69) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '72840684-f1b9-da69'
+  canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/72840684-f1b9-da69
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  warning_sanitize_window:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Proxy the IP allowlist for speed
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; (trap 'echo done' EXIT; echo 'testing 1 2 3'); true ; } > /tmp/box-A/protonPayloadCoinAtom
+            echo "gate VerifySuite: $(wc -c </tmp/box-A/protonPayloadCoinAtom) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'protonPayloadCoinAtom'
+  VerifySuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/protonPayloadCoinAtom
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  C_LEN:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Execute weigh in
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; for w in `seq 3`; do printf '%02d\n' $w; done; true ; } > /tmp/box-A/l4y3r.5t0n3.n0i5e
+            echo "gate p-old: $(wc -c </tmp/box-A/l4y3r.5t0n3.n0i5e) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'l4y3r.5t0n3.n0i5e'
+  p-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/l4y3r.5t0n3.n0i5e
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  rainish:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: JZ quarantine
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; for w in bogota kyoto madrid; do echo -n "$w "; done; echo; true ; } > /tmp/box-A/200.55.12.99
+            echo "gate lets-go: $(wc -c </tmp/box-A/200.55.12.99) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '200.55.12.99'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/200.55.12.99
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  d14:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 2023 bronze layer normalization
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -t .. | nl; true ; } > /tmp/box-A/FJoRDVecToR
+            echo "gate add-login-redirect: $(wc -c </tmp/box-A/FJoRDVecToR) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'FJoRDVecToR'
+  add-login-redirect:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/FJoRDVecToR
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  metaBrushInput:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: This is where we cold start the bootloader
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -it /bin/b*|uniq; true ; } > /tmp/box-A/8e0fc639-0727-bffe-26f5
+            echo "gate CORE-875: $(wc -c </tmp/box-A/8e0fc639-0727-bffe-26f5) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '8e0fc639-0727-bffe-26f5'
+  CORE-875:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/8e0fc639-0727-bffe-26f5
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  USB2Message:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: 26 sweep up the crash reports
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; for f in $HOME/.bash*; do basename "$f"; done; true ; } > /tmp/box-A/libsrcbkp
+            echo "gate MERGE_DEV: $(wc -c </tmp/box-A/libsrcbkp) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'libsrcbkp'
+  MERGE_DEV:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/libsrcbkp
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  bal_blvd_snd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: On final for audit
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; help read | head -n4; true ; } > /tmp/box-A/ledger-beam
+            echo "gate wip-metrics: $(wc -c </tmp/box-A/ledger-beam) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'ledger-beam'
+  wip-metrics:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/ledger-beam
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  mega-migration:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Tomorrow approve the training records
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; grep -v nologin < /etc/passwd|cut --delimiter=: --fields=6|wc -l; true ; } > /tmp/box-A/b108-guest-RAM_Widget
+            echo "gate PackagePipeline: $(wc -c </tmp/box-A/b108-guest-RAM_Widget) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'b108-guest-RAM_Widget'
+  PackagePipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/b108-guest-RAM_Widget
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  modelattach:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Loop in Kenji
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; printf '%s\n' 'build finished' | md5sum; true ; } > /tmp/box-A/worker-00ea1.log
+            echo "gate andromeda-v2: $(wc -c </tmp/box-A/worker-00ea1.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'worker-00ea1.log'
+  andromeda-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/worker-00ea1.log
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  detach_sphere_user:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: May Deployment Run
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; { printf "%s\n" sent mountain record; } >"${TMPDIR:-/tmp}/ROUTER_TRASH.dat" && sort "${TMPDIR:-/tmp}/ROUTER_TRASH.dat"; true ; } > /tmp/box-A/br0nz3_f1am3
+            echo "gate tb-2a: $(wc -c </tmp/box-A/br0nz3_f1am3) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'br0nz3_f1am3'
+  tb-2a:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/br0nz3_f1am3
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  l1075z:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Ship overstock on dock B
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; echo 'trailing spaces   ' | tee /tmp/ROUTER_ALPHA_COOKIE.bak "/tmp/MILESTONE_TEA.out" >/dev/null && cat "/tmp/MILESTONE_TEA.out"; true ; } > /tmp/box-A/rustyMatrixWidget
+            echo "gate BuildProd: $(wc -c </tmp/box-A/rustyMatrixWidget) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'rustyMatrixWidget'
+  BuildProd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/rustyMatrixWidget
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  device400:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Tower escalate the board
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; printf 'host=cache-a\nport=5766\nuser=zoe\ndebug=true\n'| grep -c =; true ; } > /tmp/box-A/G39Hr4iIy
+            echo "gate edge-v3: $(wc -c </tmp/box-A/G39Hr4iIy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'G39Hr4iIy'
+  edge-v3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/G39Hr4iIy
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  libditaim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Chapter 22 Caption The Hero Banner
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; df -h -x tmpfs | awk '{ print $1 }' | tail -n 20; true ; } > /tmp/box-A/IMG50468
+            echo "gate papa: $(wc -c </tmp/box-A/IMG50468) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'IMG50468'
+  papa:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/IMG50468
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  Unsafe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Hover over the toast message
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cat /etc/hosts /etc/shells >"/tmp/budget_honey_2025-02-07.log" && wc -l "/tmp/budget_honey_2025-02-07.log"; true ; } > /tmp/box-A/b1ea22ca11c
+            echo "gate quebec: $(wc -c </tmp/box-A/b1ea22ca11c) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'b1ea22ca11c'
+  quebec:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/b1ea22ca11c
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  i1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: PatchBossArenaStep
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; paste -s -d: <(seq 6); true ; } > /tmp/box-A/pk5nw
+            echo "gate delta: $(wc -c </tmp/box-A/pk5nw) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'pk5nw'
+  delta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/pk5nw
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  lima_papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: teardown group d
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; echo 'the answer is 42' | gzip -c | wc -c; true ; } > /tmp/box-A/rastErstOnEsWEEptheTA
+            echo "gate tb: $(wc -c </tmp/box-A/rastErstOnEsWEEptheTA) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'rastErstOnEsWEEptheTA'
+  tb:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/rastErstOnEsWEEptheTA
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  ourLevelBase:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: TrimTimelineTask
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; set -- kyoto denver rome nairobi; for a; do echo "<$a>"; done; true ; } > /tmp/box-A/memo-7004
+            echo "gate omar-test: $(wc -c </tmp/box-A/memo-7004) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'memo-7004'
+  omar-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/memo-7004
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  sam2k:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Closed caption compression for the sprint
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; grep --count -R --ignore-case alias /etc 2>/dev/null | nl | head -n 8; true ; } > /tmp/box-A/2022-10-01T23-49
+            echo "gate deploy: $(wc -c </tmp/box-A/2022-10-01T23-49) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '2022-10-01T23-49'
+  deploy:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/2022-10-01T23-49
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  back4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: spacer
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; awk -F: '{print $6}' /etc/passwd |head -n 3; true ; } > /tmp/box-A/CPU-lagoon
+            echo "gate Prepare_Tests7: $(wc -c </tmp/box-A/CPU-lagoon) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'CPU-lagoon'
+  Prepare_Tests7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/CPU-lagoon
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  listenabled:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Rain falls tear down the pager rotation
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -F /var|paste -sd ' '; true ; } > /tmp/box-A/v0.5.10
+            echo "gate v1-ga4: $(wc -c </tmp/box-A/v0.5.10) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'v0.5.10'
+  v1-ga4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/v0.5.10
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+  sumReleaseAtIndex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: In case of failure copy the cache directory
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; getent passwd | awk -F ":" '{ print $1 }' | tail -10; true ; } > /tmp/box-A/TXN_006593
+            echo "gate add-login-reload: $(wc -c </tmp/box-A/TXN_006593) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'TXN_006593'
+  add-login-reload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Grab gate output
+          command: |
+            cat /tmp/box-A/TXN_006593
+      - run:
+          name: Pull dependencies
+          command: git clone --depth 1 -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: tar --extract --file=quarry-release.tar
+      - run:
+          name: Validate binary
+          command: cat /proc/cpuinfo | head -5
+      - run:
+          command: nice -n 0 ./core-v3
+
+  fk_shim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Plate up quarantine
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -A -t /sys/class/net|uniq; true ; } > /tmp/box-A/2022-10-01T23-49
+            echo "gate deploy: $(wc -c </tmp/box-A/2022-10-01T23-49) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '2022-10-01T23-49'
+  q5c0o0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Refresh the cookie banner ready for compliance
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; od -c /etc/shells | head -n 3; true ; } > /tmp/box-A/rustyMatrixWidget
+            echo "gate BuildProd: $(wc -c </tmp/box-A/rustyMatrixWidget) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'rustyMatrixWidget'
+  ID-STATUS-DTL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Ride forth and warm the bastion host
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; NOW=(cairo toronto perth helsinki prague oslo); unset 'NOW[1]'; echo ${NOW[@]}; true ; } > /tmp/box-A/CPU-lagoon
+            echo "gate Prepare_Tests7: $(wc -c </tmp/box-A/CPU-lagoon) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'CPU-lagoon'
+  assertALLOC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: looping gif previews in background
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cat /etc/hosts | grep -i 'host' | tail -n 3; true ; } > /tmp/box-A/silver65
+            echo "gate brodcast: $(wc -c </tmp/box-A/silver65) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'silver65'
+  DualObservableSymbolStore:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: My loudness level thumbnail
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; compgen -b | grep -x printf; true ; } > /tmp/box-A/MD5.SQL
+            echo "gate realease: $(wc -c </tmp/box-A/MD5.SQL) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'MD5.SQL'
+  String-Uuid-Pattern:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: No pick without approval
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; printf '%s\n' "time for coffee" | cat -A; true ; } > /tmp/box-A/v0.5.10
+            echo "gate v1-ga4: $(wc -c </tmp/box-A/v0.5.10) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'v0.5.10'
+  rt803:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: PICK THE BACKORDERS
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cut -c1-20 /etc/os-release | head --lines=3; true ; } > /tmp/box-A/05sLcEElQgp9
+            echo "gate preview-build: $(wc -c </tmp/box-A/05sLcEElQgp9) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '05sLcEElQgp9'
+  ADAPTER_V2_8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Unless the bandwidth cap is ready bail out
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; printf '%s\n' "dog whale lion owl otter" | awk '{print $2}'; true ; } > /tmp/box-A/G39Hr4iIy
+            echo "gate edge-v3: $(wc -c </tmp/box-A/G39Hr4iIy) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'G39Hr4iIy'
+  commit_loop:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Remit the vendor payments and sign
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ps -u $(whoami) | wc -l; true ; } > /tmp/box-A/200.55.12.99
+            echo "gate lets-go: $(wc -c </tmp/box-A/200.55.12.99) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '200.55.12.99'
+  volcano1218:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Freeze before anyone notices
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; awk -F':' '$3 == 0{print $1, $3, $4}' /etc/passwd | wc -l; true ; } > /tmp/box-A/FJoRDVecToR
+            echo "gate add-login-redirect: $(wc -c </tmp/box-A/FJoRDVecToR) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'FJoRDVecToR'
+  dlgscene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: ls tmp dir 70
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; for w in berlin lisbon boston manila; do echo "$w"; done; true ; } > /tmp/box-A/br0nz3_f1am3
+            echo "gate tb-2a: $(wc -c </tmp/box-A/br0nz3_f1am3) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'br0nz3_f1am3'
+  zUnionSidebar:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Encore patch
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; if [[ -d /etc/skel ]] ; then echo 'exists'; fi; true ; } > /tmp/box-A/72840684-f1b9-da69
+            echo "gate canary: $(wc -c </tmp/box-A/72840684-f1b9-da69) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '72840684-f1b9-da69'
+  git-prod-82:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: ngl diff the perf baseline
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; TZ=Asia/Tokyo date +"%F %T %Z"; true ; } > /tmp/box-A/b1ea22ca11c
+            echo "gate quebec: $(wc -c </tmp/box-A/b1ea22ca11c) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'b1ea22ca11c'
+  ytrue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: ul keys to dev
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; id -Gn | tr ' ' '\n' | tail -n 10 | pr -4 -t -w 80; true ; } > /tmp/box-A/IMG50468
+            echo "gate papa: $(wc -c </tmp/box-A/IMG50468) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'IMG50468'
+  freshQ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Otherwise double tap the cart icon
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; find /etc -type l -size 0 -exec echo {} \; 2> /dev/null | sort | head -n 3; true ; } > /tmp/box-A/worker-00ea1.log
+            echo "gate andromeda-v2: $(wc -c </tmp/box-A/worker-00ea1.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'worker-00ea1.log'
+  label__error__current:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: GPIO pin warmup
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cut -d: -f6 /etc/passwd | xargs -n1 basename | tail -n 20; true ; } > /tmp/box-A/ledger-beam
+            echo "gate wip-metrics: $(wc -c </tmp/box-A/ledger-beam) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'ledger-beam'
+  removeAuthor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Week Four Despawn
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | awk -F: '$3 >= 1000 { print $1 }' | expand -t 8; true ; } > /tmp/box-A/libsrcbkp
+            echo "gate MERGE_DEV: $(wc -c </tmp/box-A/libsrcbkp) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'libsrcbkp'
+  RHO3D:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Shift Lead Post Task
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; printf 'ocean\t43\nchapter\t31\nmiddle\t11\nbuffer\t61\n' >'/tmp/STATS_FLOUR_2019-10.csv' && awk -F'\t' '{print $2}' '/tmp/STATS_FLOUR_2019-10.csv'; true ; } > /tmp/box-A/cfg.bin.sw
+            echo "gate depoly-73: $(wc -c </tmp/box-A/cfg.bin.sw) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'cfg.bin.sw'
+  undo_-_key:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: gzip cache 10
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -1 -S ~/.bashrc | tac; true ; } > /tmp/box-A/l4y3r.5t0n3.n0i5e
+            echo "gate p-old: $(wc -c </tmp/box-A/l4y3r.5t0n3.n0i5e) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'l4y3r.5t0n3.n0i5e'
+  BUCKET_NBF:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Wrangle tax report
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; ls -nr /etc/skel|sort -k9; true ; } > /tmp/box-A/sample-77b
+            echo "gate dotnet8-vet: $(wc -c </tmp/box-A/sample-77b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'sample-77b'
+  receiptsByName:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Analyse the stereo mix
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; for u in brown red black; do printf '%-8s %d\n' "$u" ${#u}; done | paste -sd ' '; true ; } > /tmp/box-A/WAZaRF
+            echo "gate dotnet8-test: $(wc -c </tmp/box-A/WAZaRF) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'WAZaRF'
+  chessc032033:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Also vortex the control group
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; echo thursday tuesday wednesday saturday friday sunday monday | tr ' ' '\n' | paste -sd ' '; true ; } > /tmp/box-A/memo-7004
+            echo "gate omar-test: $(wc -c </tmp/box-A/memo-7004) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'memo-7004'
+  mark15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: Summarise the container image
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; df -hT|sort -n -k5|tail -n +2; true ; } > /tmp/box-A/TXN_006593
+            echo "gate add-login-reload: $(wc -c </tmp/box-A/TXN_006593) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'TXN_006593'
+  W15wg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: shadow sandbox user sessions
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; if [ -d /etc/skel ]; then echo true; else echo 'false'; fi; true ; } > /tmp/box-A/Zrz
+            echo "gate package: $(wc -c </tmp/box-A/Zrz) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - 'Zrz'
+  AnonymousUserRegistry:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/box-A
+      - run:
+          name: record the pipette tips I guess
+          command: |
+            mkdir -p /tmp/box-A
+            { set +o pipefail 2>/dev/null; stdbuf -oL echo 'a-b-c'; true ; } > /tmp/box-A/8e0fc639-0727-bffe-26f5
+            echo "gate CORE-875: $(wc -c </tmp/box-A/8e0fc639-0727-bffe-26f5) bytes total"
+      - persist_to_workspace:
+          root: /tmp/box-A
+          paths:
+            - '8e0fc639-0727-bffe-26f5'
+workflows:
+  matrix:
+    jobs:
+      - sam2k
+      - fk_shim:
+          requires:
+            - sam2k
+      - deploy:
+          requires:
+            - fk_shim
+      - l1075z:
+          requires:
+            - fk_shim
+      - q5c0o0:
+          requires:
+            - l1075z
+      - BuildProd:
+          requires:
+            - q5c0o0
+      - back4:
+          requires:
+            - q5c0o0
+      - ID-STATUS-DTL:
+          requires:
+            - back4
+      - Prepare_Tests7:
+          requires:
+            - ID-STATUS-DTL
+      - thulbilslinta:
+          requires:
+            - ID-STATUS-DTL
+      - assertALLOC:
+          requires:
+            - thulbilslinta
+      - brodcast:
+          requires:
+            - assertALLOC
+      - field-170225:
+          requires:
+            - assertALLOC
+      - DualObservableSymbolStore:
+          requires:
+            - field-170225
+      - realease:
+          requires:
+            - DualObservableSymbolStore
+      - listenabled:
+          requires:
+            - DualObservableSymbolStore
+      - String-Uuid-Pattern:
+          requires:
+            - listenabled
+      - v1-ga4:
+          requires:
+            - String-Uuid-Pattern
+      - BasicFileKernel
+      - rt803:
+          requires:
+            - BasicFileKernel
+      - preview-build:
+          requires:
+            - rt803
+      - device400:
+          requires:
+            - rt803
+      - ADAPTER_V2_8:
+          requires:
+            - device400
+      - edge-v3:
+          requires:
+            - ADAPTER_V2_8
+      - rainish:
+          requires:
+            - ADAPTER_V2_8
+      - commit_loop:
+          requires:
+            - rainish
+      - lets-go:
+          requires:
+            - commit_loop
+      - d14:
+          requires:
+            - commit_loop
+      - volcano1218:
+          requires:
+            - d14
+      - add-login-redirect:
+          requires:
+            - volcano1218
+      - detach_sphere_user:
+          requires:
+            - volcano1218
+      - dlgscene:
+          requires:
+            - detach_sphere_user
+      - tb-2a:
+          requires:
+            - dlgscene
+      - tabs--sm:
+          requires:
+            - dlgscene
+      - zUnionSidebar:
+          requires:
+            - tabs--sm
+      - canary:
+          requires:
+            - zUnionSidebar
+      - Unsafe:
+          requires:
+            - zUnionSidebar
+      - git-prod-82:
+          requires:
+            - Unsafe
+      - quebec:
+          requires:
+            - git-prod-82
+      - libditaim
+      - ytrue:
+          requires:
+            - libditaim
+      - papa:
+          requires:
+            - ytrue
+      - modelattach:
+          requires:
+            - ytrue
+      - freshQ:
+          requires:
+            - modelattach
+      - andromeda-v2:
+          requires:
+            - freshQ
+      - bal_blvd_snd:
+          requires:
+            - freshQ
+      - label__error__current:
+          requires:
+            - bal_blvd_snd
+      - wip-metrics:
+          requires:
+            - label__error__current
+      - USB2Message:
+          requires:
+            - label__error__current
+      - removeAuthor:
+          requires:
+            - USB2Message
+      - MERGE_DEV:
+          requires:
+            - removeAuthor
+      - xDim:
+          requires:
+            - removeAuthor
+      - RHO3D:
+          requires:
+            - xDim
+      - depoly-73:
+          requires:
+            - RHO3D
+      - C_LEN:
+          requires:
+            - RHO3D
+      - undo_-_key:
+          requires:
+            - C_LEN
+      - p-old:
+          requires:
+            - undo_-_key
+      - Close-TensorProperty
+      - BUCKET_NBF:
+          requires:
+            - Close-TensorProperty
+      - dotnet8-vet:
+          requires:
+            - BUCKET_NBF
+      - Stop-Light:
+          requires:
+            - BUCKET_NBF
+      - receiptsByName:
+          requires:
+            - Stop-Light
+      - dotnet8-test:
+          requires:
+            - receiptsByName
+      - ourLevelBase:
+          requires:
+            - receiptsByName
+      - chessc032033:
+          requires:
+            - ourLevelBase
+      - omar-test:
+          requires:
+            - chessc032033
+      - sumReleaseAtIndex:
+          requires:
+            - chessc032033
+      - mark15:
+          requires:
+            - sumReleaseAtIndex
+      - add-login-reload:
+          requires:
+            - mark15
+      - DelegatingBufferProcessor:
+          requires:
+            - mark15
+      - W15wg:
+          requires:
+            - DelegatingBufferProcessor
+      - package:
+          requires:
+            - W15wg
+      - metaBrushInput:
+          requires:
+            - W15wg
+      - AnonymousUserRegistry:
+          requires:
+            - metaBrushInput
+      - CORE-875:
+          requires:
+            - AnonymousUserRegistry
+      - i1
+      - delta:
+          requires:
+            - i1
+      - warning_sanitize_window:
+          requires:
+            - i1
+      - VerifySuite:
+          requires:
+            - warning_sanitize_window
+      - lima_papa:
+          requires:
+            - warning_sanitize_window
+      - tb:
+          requires:
+            - lima_papa
+      - mega-migration:
+          requires:
+            - lima_papa
+      - PackagePipeline:
+          requires:
+            - mega-migration
+      - l909:
+          requires:
+            - mega-migration
+      - add-db:
+          requires:
+            - l909
